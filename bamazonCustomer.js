@@ -18,7 +18,6 @@ var connection = mysql.createConnection({
 
 const displayAll = function() {
   return new Promise((resolve, reject) => {
-    console.log("inside promise");
     var returnVal = [];
     var query = "SELECT * FROM products"; 
     connection.query(query, function (err, res) {
@@ -39,8 +38,8 @@ const continueShopping = function() {
     .prompt({
       name: "anotherPurchase",
       type: "input",
-      message: "Would you like to continue shopping?(Y/N)"
-      // validate later
+      message: "Would you like to continue shopping?(Y/N)",
+      // validate: 
     }).then(function(response) {
       if (response.anotherPurchase.toLowerCase() === "y") {
         logic();
@@ -81,20 +80,30 @@ const checkStock = function(id, numUnits) {
   })
 }
 
-const promptCustomer = function() {
-  console.log("did we get here?")
+const promptCustomer = function(productsLength) {
   inquirer
     .prompt({
       name: "idRequest",
       type: "input",
-      message: "What Product ID would you like to buy?"
-      // validate later
+      message: "What Product ID would you like to buy?",
+      //ensures the user has entered a number existing in product_id's
+      validate: function(value) {
+        if (isNaN(value) === false && value <= productsLength) {
+          return true;
+        }
+        return `Please select a number between 1 and ${productsLength}`;
+      }
     }).then(function(product) {
       inquirer.prompt({
         name: "numberUnits",
-        type: "input",
-        message: "How many units would you like to buy?"
-        // validate later
+        type: "number",
+        message: "How many units would you like to buy?",
+        validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return `Please select a number`;
+        }
       }).then(function(amount) {
 
         checkStock(product.idRequest, amount.numberUnits);
@@ -106,22 +115,16 @@ const promptCustomer = function() {
 
 
 // *********************************
-
-const start = function() {
-  console.log("Hooray!  Connected");
-};
-
-
 async function logic(err) {
   if (err) throw err;
-  start();
 
   const message = await displayAll();
+  const productsLength = message.length;
   for (let i = 0; i < message.length; i++) {
     console.log(message[i]);
   }
 
-  promptCustomer();
+  promptCustomer(productsLength);
 
 }
 

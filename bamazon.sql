@@ -24,6 +24,24 @@ VALUES
 ("Bananas", "Food", 1.5, 90),
 ("Rug", "Household", 40, 30),
 ("Chair", "Household", 20.5, 10),
-("Chocolate", "Food", 1, 100)
+("Chocolate", "Food", 1, 100);
+
+
+USE bamazon;
+
+CREATE TABLE departments(
+	department_id INT AUTO_INCREMENT NOT NULL,
+    department_name VARCHAR(100),
+    over_head_costs DECIMAL(10,2),
+    PRIMARY KEY(department_id)
+);
+
+INSERT INTO departments(department_name, over_head_costs)
+VALUES
+("Household", 200),
+("Food", 400),
+("Kitchen", 300),
+("Electronics", 250);
+
 
 

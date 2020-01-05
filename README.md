@@ -62,6 +62,12 @@ The manager's portal has more options and privileges than the customer.  The man
 
 ![customer-failure](./images/customer-failure.png)
 
+****************************************************
+
+* Manager: Options
+
+![manager-options](./images/manager-options.png)
+
 * Manager: View Products for Sale
 
 ![manager-view-all](./images/manager-view-all.png)
